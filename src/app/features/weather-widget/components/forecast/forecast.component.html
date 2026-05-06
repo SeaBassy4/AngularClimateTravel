@@ -1,10 +1,10 @@
 <div class="mt-8">
   <h3 class="text-xl font-bold text-gray-900 mb-6 pl-3 border-l-4 border-black">5-Day Forecast</h3>
   
-  <div class="flex overflow-x-auto pb-6 pt-2 snap-x snap-mandatory gap-4 custom-scrollbar">
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 pt-2 pb-4">
     
     <div *ngFor="let day of dailyForecasts; let i = index" 
-         class="snap-center shrink-0 w-36 bg-white rounded-2xl p-5 flex flex-col items-center border border-gray-100 hover:border-gray-300 transition-all cursor-pointer shadow-sm group relative"
+         class="bg-white rounded-2xl p-5 flex flex-col items-center border border-gray-100 hover:border-gray-300 transition-all cursor-pointer shadow-sm hover:shadow-md group relative w-full"
          [style.animation-delay]="(i * 0.1) + 's'"
          class="animate-fade-in-up">
          
