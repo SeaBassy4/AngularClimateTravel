@@ -1,0 +1,33 @@
+<div class="glass-panel p-6 rounded-3xl shadow-2xl backdrop-blur-md bg-white/10 border border-white/20 transition-all duration-300">
+  
+  <app-search (searchEvent)="onSearch($event)"></app-search>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="mt-6 p-4 bg-red-500/20 border border-red-500/50 rounded-xl text-red-200 text-center animate-pulse">
+    <div class="flex items-center justify-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+      <span class="font-semibold">{{ errorMessage }}</span>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="mt-8 flex flex-col items-center justify-center space-y-4 py-10">
+    <div class="relative w-16 h-16">
+      <div class="absolute inset-0 rounded-full border-t-4 border-blue-400 animate-spin"></div>
+      <div class="absolute inset-2 rounded-full border-b-4 border-emerald-300 animate-spin animation-delay-150"></div>
+    </div>
+    <p class="text-blue-200 font-medium animate-pulse">Consultando a los satélites...</p>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!isLoading && currentWeather" class="mt-8 animate-fade-in-up">
+    <app-current-weather [weather]="currentWeather"></app-current-weather>
+  </div>
+
+  <div *ngIf="!isLoading && forecast" class="mt-8 animate-fade-in-up" style="animation-delay: 0.2s; animation-fill-mode: both;">
+    <app-forecast [forecast]="forecast"></app-forecast>
+  </div>
+
+</div>
