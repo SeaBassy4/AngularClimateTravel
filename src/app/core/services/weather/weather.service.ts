@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { WeatherResponse, ForecastResponse, GeoSuggestion, OpenMeteoResponse } from '../../models/weather.model';
-import { map } from 'rxjs/operators';
+import { map, timeout } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,15 +14,19 @@ export class WeatherService {
   
   // Note: We are not passing units=metric as we will use a custom pipe to convert from Kelvin to Celsius
   getWeather(city: string): Observable<WeatherResponse> {
+    if (!navigator.onLine) return throwError(() => new Error('No connection. Check your network.'));
     const url = `${environment.openWeatherApiUrl}/weather?q=${city}&appid=${environment.openWeatherKey}&lang=en`;
     return this.http.get<WeatherResponse>(url).pipe(
+      timeout(10000),
       catchError(this.handleError)
     );
   }
 
   getForecast(city: string): Observable<ForecastResponse> {
+    if (!navigator.onLine) return throwError(() => new Error('No connection. Check your network.'));
     const url = `${environment.openWeatherApiUrl}/forecast?q=${city}&appid=${environment.openWeatherKey}&lang=en`;
     return this.http.get<ForecastResponse>(url).pipe(
+      timeout(10000),
       catchError(this.handleError)
     );
   }
