@@ -3,7 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { WeatherResponse, ForecastResponse, GeoSuggestion } from '../../models/weather.model';
+import { WeatherResponse, ForecastResponse, GeoSuggestion, OpenMeteoResponse } from '../../models/weather.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,14 @@ export class WeatherService {
   
   // Note: We are not passing units=metric as we will use a custom pipe to convert from Kelvin to Celsius
   getWeather(city: string): Observable<WeatherResponse> {
-    const url = `${environment.openWeatherApiUrl}/weather?q=${city}&appid=${environment.openWeatherKey}&lang=es`;
+    const url = `${environment.openWeatherApiUrl}/weather?q=${city}&appid=${environment.openWeatherKey}&lang=en`;
     return this.http.get<WeatherResponse>(url).pipe(
       catchError(this.handleError)
     );
   }
 
   getForecast(city: string): Observable<ForecastResponse> {
-    const url = `${environment.openWeatherApiUrl}/forecast?q=${city}&appid=${environment.openWeatherKey}&lang=es`;
+    const url = `${environment.openWeatherApiUrl}/forecast?q=${city}&appid=${environment.openWeatherKey}&lang=en`;
     return this.http.get<ForecastResponse>(url).pipe(
       catchError(this.handleError)
     );
@@ -28,28 +29,27 @@ export class WeatherService {
 
   getCitySuggestions(query: string): Observable<GeoSuggestion[]> {
     if (!query) return new Observable<GeoSuggestion[]>(subscriber => subscriber.next([]));
-    const url = `${environment.openWeatherGeoUrl}/direct?q=${query}&limit=5&appid=${environment.openWeatherKey}`;
-    return this.http.get<GeoSuggestion[]>(url).pipe(
+    const url = `${environment.openMeteoGeoUrl}/search?name=${query}&count=5&language=en&format=json`;
+    return this.http.get<OpenMeteoResponse>(url).pipe(
+      map(res => res.results || []),
       catchError(this.handleError)
     );
   }
 
   private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Ocurrió un error desconocido.';
+    let errorMessage = 'An unknown error occurred.';
     
     if (error.error instanceof ErrorEvent) {
-      // Client-side or network error
-      errorMessage = `Error de red: ${error.error.message}`;
+      errorMessage = `Network error: ${error.error.message}`;
     } else {
-      // Backend returned an unsuccessful response code
       if (error.status === 404) {
-        errorMessage = 'Ciudad no encontrada.';
+        errorMessage = 'City not found.';
       } else if (error.status === 401) {
-        errorMessage = 'Clave de API inválida.';
+        errorMessage = 'Invalid API key.';
       } else if (error.status === 0) {
-        errorMessage = 'Sin conexión. Verifica tu red.';
+        errorMessage = 'No connection. Check your network.';
       } else {
-        errorMessage = `Código de error: ${error.status}, mensaje: ${error.message}`;
+        errorMessage = `Error code: ${error.status}, message: ${error.message}`;
       }
     }
     

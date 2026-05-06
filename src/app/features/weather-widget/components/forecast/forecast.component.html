@@ -1,32 +1,32 @@
-<div class="mt-4">
-  <h3 class="text-xl font-semibold text-white mb-6 pl-2 border-l-4 border-emerald-400">Pronóstico de 5 días</h3>
+<div class="mt-8">
+  <h3 class="text-xl font-bold text-gray-900 mb-6 pl-3 border-l-4 border-black">5-Day Forecast</h3>
   
   <div class="flex overflow-x-auto pb-6 pt-2 snap-x snap-mandatory gap-4 custom-scrollbar">
     
     <div *ngFor="let day of dailyForecasts; let i = index" 
-         class="snap-center shrink-0 w-36 bg-black/20 backdrop-blur-sm rounded-2xl p-4 flex flex-col items-center border border-white/10 hover:bg-white/10 hover:border-white/30 transition-all cursor-pointer shadow-lg group relative"
+         class="snap-center shrink-0 w-36 bg-white rounded-2xl p-5 flex flex-col items-center border border-gray-100 hover:border-gray-300 transition-all cursor-pointer shadow-sm group relative"
          [style.animation-delay]="(i * 0.1) + 's'"
          class="animate-fade-in-up">
          
-      <div class="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      <div class="absolute inset-0 bg-gray-50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
       
       <!-- Date -->
-      <span class="text-emerald-100 font-medium mb-1 z-10">{{ day.dt * 1000 | date:'EE, MMM d' }}</span>
+      <span class="text-gray-900 font-semibold mb-1 z-10">{{ day.dt * 1000 | date:'EE, MMM d' }}</span>
       
       <!-- Icon -->
       <div class="w-16 h-16 flex items-center justify-center my-2 z-10 group-hover:scale-110 transition-transform duration-300">
         <img [src]="'https://openweathermap.org/img/wn/' + day.weather[0].icon + '@2x.png'" 
              [alt]="day.weather[0].description" 
-             class="w-full h-full drop-shadow-md">
+             class="w-full h-full filter drop-shadow-sm">
       </div>
       
       <!-- Temperatures -->
       <div class="flex items-center gap-3 mt-2 z-10">
-        <span class="font-bold text-white text-lg">{{ day.main.temp_max | kelvinToCelsius }}°</span>
-        <span class="text-sm text-gray-400">{{ day.main.temp_min | kelvinToCelsius }}°</span>
+        <span class="font-bold text-gray-900 text-lg">{{ day.main.temp_max | kelvinToCelsius }}°</span>
+        <span class="text-sm text-gray-500">{{ day.main.temp_min | kelvinToCelsius }}°</span>
       </div>
       
-      <span class="text-xs text-gray-300 mt-2 text-center capitalize z-10 truncate w-full">{{ day.weather[0].description }}</span>
+      <span class="text-xs text-gray-500 mt-2 text-center capitalize z-10 truncate w-full">{{ day.weather[0].description }}</span>
     </div>
 
   </div>

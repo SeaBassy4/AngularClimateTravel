@@ -1,7 +1,7 @@
-<div class="relative w-full max-w-md mx-auto z-50">
+<div class="relative w-full max-w-xl mx-auto z-50">
   <form (ngSubmit)="onSubmit()" class="relative">
-    <div class="relative flex items-center">
-      <svg class="absolute left-4 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <div class="relative flex items-center group">
+      <svg class="absolute left-5 w-5 h-5 text-gray-400 group-focus-within:text-black transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
       </svg>
       <input 
@@ -9,12 +9,12 @@
         [formControl]="searchControl"
         (focus)="onFocus()"
         (blur)="onBlur()"
-        placeholder="Buscar ciudad (ej. Madrid, Tokyo)..." 
-        class="w-full py-4 pl-12 pr-16 bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-400 shadow-inner transition-all"
+        placeholder="Search city (e.g. Madrid, Tokyo)..." 
+        class="w-full py-4 pl-14 pr-16 bg-white border border-gray-200 text-gray-900 placeholder-gray-400 rounded-2xl focus:outline-none focus:border-black focus:ring-1 focus:ring-black shadow-sm transition-all text-lg"
         autocomplete="off"
       >
-      <button type="submit" class="absolute right-2 p-2 bg-emerald-500 hover:bg-emerald-400 rounded-full text-white transition-colors shadow-md">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <button type="submit" class="absolute right-3 p-2.5 bg-black hover:bg-gray-800 rounded-xl text-white transition-colors shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
         </svg>
       </button>
@@ -23,30 +23,30 @@
 
   <!-- Autocomplete Dropdown -->
   <div *ngIf="showDropdown && (suggestions.length > 0 || (searchControl.value === '' && recentSearches.length > 0))" 
-       class="absolute w-full mt-2 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100 overflow-hidden transform transition-all animate-fade-in-up">
+       class="absolute w-full mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden transform transition-all animate-fade-in-up">
     
     <!-- Suggestions -->
     <ul *ngIf="suggestions.length > 0" class="py-2">
       <li *ngFor="let item of suggestions" 
           (click)="onSelectSuggestion(item.name)"
-          class="px-4 py-3 hover:bg-emerald-50 cursor-pointer flex items-center gap-3 transition-colors text-gray-800">
+          class="px-5 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3 transition-colors text-gray-800">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
         </svg>
         <span class="font-medium">{{ item.name }}</span>
-        <span class="text-sm text-gray-500">{{ item.state ? item.state + ',' : '' }} {{ item.country }}</span>
+        <span class="text-sm text-gray-500">{{ item.admin1 ? item.admin1 + ', ' : '' }}{{ item.country }}</span>
       </li>
     </ul>
 
     <!-- Recent Searches -->
     <div *ngIf="searchControl.value === '' && recentSearches.length > 0">
-      <div class="px-4 py-2 bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-        Búsquedas recientes
+      <div class="px-5 py-3 bg-gray-50 border-b border-gray-100 text-xs font-bold text-gray-500 uppercase tracking-wider">
+        Recent Searches
       </div>
-      <ul class="py-1">
+      <ul class="py-2">
         <li *ngFor="let city of recentSearches" 
             (click)="onSelectSuggestion(city)"
-            class="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center gap-3 transition-colors text-gray-700">
+            class="px-5 py-2.5 hover:bg-gray-50 cursor-pointer flex items-center gap-3 transition-colors text-gray-700">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>

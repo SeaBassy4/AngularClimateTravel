@@ -18,9 +18,12 @@ export interface ForecastResponse {
 
 export interface GeoSuggestion {
   name: string;
-  local_names?: any;
-  lat: number;
-  lon: number;
+  latitude: number;
+  longitude: number;
   country: string;
-  state?: string;
+  admin1?: string;
+}
+
+export interface OpenMeteoResponse {
+  results?: GeoSuggestion[];
 }
